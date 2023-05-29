@@ -1839,7 +1839,7 @@ func (s *StorageTestSuite) TestInvokeExecution() {
 		nil, math.MaxUint, nil, 0)
 	msgCreateBucket.PrimarySpApproval.Sig, err = sp.ApprovalKey.Sign(msgCreateBucket.GetApprovalBytes())
 	s.Require().NoError(err)
-	s.SendTxBlock(msgCreateBucket, user)
+	s.SendTxBlock(user, msgCreateBucket)
 
 	// HeadBucket
 	ctx := context.Background()
@@ -1870,7 +1870,7 @@ func (s *StorageTestSuite) TestInvokeExecution() {
 	msgCreateObject := storagetypes.NewMsgCreateObject(user.GetAddr(), bucketName, objectName, uint64(payloadSize), storagetypes.VISIBILITY_TYPE_PRIVATE, expectChecksum, contextType, storagetypes.REDUNDANCY_EC_TYPE, math.MaxUint, nil, nil)
 	msgCreateObject.PrimarySpApproval.Sig, err = sp.ApprovalKey.Sign(msgCreateObject.GetApprovalBytes())
 	s.Require().NoError(err)
-	s.SendTxBlock(msgCreateObject, user)
+	s.SendTxBlock(user, msgCreateObject)
 
 	// HeadObject
 	queryHeadObjectRequest := storagetypes.QueryHeadObjectRequest{
@@ -1907,7 +1907,7 @@ func (s *StorageTestSuite) TestInvokeExecution() {
 	secondarySigs := [][]byte{secondarySig, secondarySig, secondarySig, secondarySig, secondarySig, secondarySig}
 	msgSealObject.SecondarySpSignatures = secondarySigs
 	s.T().Logf("msg %s", msgSealObject.String())
-	s.SendTxBlock(msgSealObject, sp.SealKey)
+	s.SendTxBlock(sp.SealKey, msgSealObject)
 
 	// ListBuckets
 	queryListBucketsRequest := storagetypes.QueryListBucketsRequest{}
@@ -1933,5 +1933,5 @@ func (s *StorageTestSuite) TestInvokeExecution() {
 		Method:             "main",
 		Params:             []byte("xxxx"),
 	}
-	s.SendTxBlock(msgInvokeExecution, user)
+	s.SendTxBlock(user, msgInvokeExecution)
 }
