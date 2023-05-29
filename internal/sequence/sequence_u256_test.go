@@ -64,3 +64,11 @@ func TestSequenceIncrements(t *testing.T) {
 		fmt.Print("i= ", i.Uint64(), "id=", id.Uint64(), "curID", curId.Uint64())
 	}
 }
+
+func TestSequenceIncrement(t *testing.T) {
+	ctx := NewMockContext()
+	store := ctx.KVStore(storetypes.NewKVStoreKey("test"))
+	seq := sequence.NewSequence256([]byte{0x1})
+	println(seq.CurVal(store).String())
+	println(seq.NextVal(store).String())
+}
