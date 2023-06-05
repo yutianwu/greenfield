@@ -139,5 +139,5 @@ func GetDeleteStalePoliciesKey(height int64) []byte {
 
 // GetExecutionResultKey return execution result store key
 func GetExecutionResultKey(taskId math.Uint) []byte {
-	return append(BucketByIDPrefix, sequence.EncodeSequence(taskId)...)
+	return append(ExecutionResultPrefix, sequence.EncodeSequence(taskId)...)
 }
